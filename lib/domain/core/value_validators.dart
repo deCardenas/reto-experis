@@ -16,6 +16,8 @@ Either<ValueFailure<String>, String> validateStringLength({
   @required int minLenght,
   @required int maxLenght,
 }) {
+  if (input == null || input.isEmpty)
+    return left(ValueFailure.empty(failedValue: input));
   if (input.length < minLenght)
     return left(
       ValueFailure.tooShortLenght(failedValue: input, min: minLenght),
