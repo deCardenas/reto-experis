@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reto/application/post/favorite_actor/favorite_actor_bloc.dart';
 import 'package:reto/domain/post/post.dart';
-import 'package:reto/presentation/routes/router.gr.dart';
 
-class PostPageContent extends StatelessWidget {
+class FavoritePostContent extends StatelessWidget {
   final Post post;
 
-  const PostPageContent({
+  const FavoritePostContent({
     Key key,
     @required this.post,
   }) : super(key: key);
@@ -21,12 +20,9 @@ class PostPageContent extends StatelessWidget {
           success: (_) {
             context.navigator.pop();
             FlushbarHelper.createSuccess(
-                    message: 'Guardado en Favoritos con exito!')
+                    message: 'Retirado de favoritos con exito!')
                 .show(context);
           },
-          failure: (value) => FlushbarHelper.createError(
-                  message: 'Este post ya ha sido guardado')
-              .show(context),
           orElse: () {},
         );
       },
@@ -39,15 +35,10 @@ class PostPageContent extends StatelessWidget {
           const SizedBox(height: 16),
           Text(post.body.getOrCrash()),
           MaterialButton(
-            child: Text('Editar'),
-            onPressed: () => context.navigator.push(Routes.postForm,
-                arguments: PostFormPageArguments(post: post)),
-          ),
-          MaterialButton(
-            child: Text('Agregar a Favotiros'),
+            child: Text('Quitar de Favotiros'),
             onPressed: () => context
                 .bloc<FavoriteActorBloc>()
-                .add(FavoriteActorEvent.addedPost(post)),
+                .add(FavoriteActorEvent.removedPost(post)),
           ),
         ],
       ),

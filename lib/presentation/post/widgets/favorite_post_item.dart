@@ -27,8 +27,8 @@ class FavoritePostItem extends StatelessWidget {
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
       ),
-      onTap: () => context.navigator.push(Routes.postDetail,
-          arguments: PostPageArguments(postId: post.id)),
+      onTap: () => context.navigator.push(Routes.favoritePost,
+          arguments: FavoritePostPageArguments(post: post)),
       onLongPress: () {
         final postActor = context.bloc<FavoriteActorBloc>();
         showDialog(

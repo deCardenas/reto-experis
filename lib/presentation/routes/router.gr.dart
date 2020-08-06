@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../../domain/post/post.dart';
 import '../home/home_page.dart';
+import '../post/pages/favorite_post_page.dart';
 import '../post/pages/post_form_page.dart';
 import '../post/pages/post_page.dart';
 
@@ -18,10 +19,12 @@ class Routes {
   static const String home = '/';
   static const String postDetail = '/post-page';
   static const String postForm = '/post-form-page';
+  static const String favoritePost = '/favorite-post-page';
   static const all = <String>{
     home,
     postDetail,
     postForm,
+    favoritePost,
   };
 }
 
@@ -32,6 +35,7 @@ class Router extends RouterBase {
     RouteDef(Routes.home, page: HomePage),
     RouteDef(Routes.postDetail, page: PostPage),
     RouteDef(Routes.postForm, page: PostFormPage),
+    RouteDef(Routes.favoritePost, page: FavoritePostPage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -58,6 +62,16 @@ class Router extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => PostFormPage(
+          key: args.key,
+          post: args.post,
+        ),
+        settings: data,
+      );
+    },
+    FavoritePostPage: (data) {
+      final args = data.getArgs<FavoritePostPageArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FavoritePostPage(
           key: args.key,
           post: args.post,
         ),
@@ -91,6 +105,15 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
         Routes.postForm,
         arguments: PostFormPageArguments(key: key, post: post),
       );
+
+  Future<dynamic> pushFavoritePost({
+    Key key,
+    @required Post post,
+  }) =>
+      push<dynamic>(
+        Routes.favoritePost,
+        arguments: FavoritePostPageArguments(key: key, post: post),
+      );
 }
 
 /// ************************************************************************
@@ -109,4 +132,11 @@ class PostFormPageArguments {
   final Key key;
   final Post post;
   PostFormPageArguments({this.key, this.post});
+}
+
+/// FavoritePostPage arguments holder class
+class FavoritePostPageArguments {
+  final Key key;
+  final Post post;
+  FavoritePostPageArguments({this.key, @required this.post});
 }
